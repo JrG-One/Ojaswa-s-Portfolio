@@ -7,7 +7,7 @@ import "./App.css";
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter basename="/Ojaswa-s-Portfolio">
         <Routes>
           <Route path="/" element={<HomePage />} />
         </Routes>
