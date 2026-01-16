@@ -5,7 +5,7 @@ const EMAILJS_CONFIG = {
     SERVICE_ID: 'service_6o6e9kc',
     TEMPLATE_ID_NOTIFICATION: 'template_n1liike', // For YOU
     TEMPLATE_ID_AUTOREPLY: 'template_b6nlvdp',    // For SENDER
-    PUBLIC_KEY: '00LNwt6oGsiGeCNKW',
+    PUBLIC_KEY: 'vLsGdN-v-S5GV3XEj',
 };
 
 export const sendEmail = async (templateParams) => {
