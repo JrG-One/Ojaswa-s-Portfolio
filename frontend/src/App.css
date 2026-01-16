@@ -1,0 +1,73 @@
+/* Global Styles */
+* {
+  scroll-behavior: smooth;
+}
+
+.App {
+  background-color: #0a0a0f;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00d9ff;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00ff88;
+}
+
+/* Selection Styling */
+::selection {
+  background: #00d9ff;
+  color: #0a0a0f;
+}
+
+::-moz-selection {
+  background: #00d9ff;
+  color: #0a0a0f;
+}
+
+/* Text Clipping */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Smooth Transitions */
+a,
+button,
+input,
+textarea {
+  transition: all 0.3s ease;
+}
+
+/* Focus Styles */
+input:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
+
+/* Loading Spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
