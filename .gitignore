@@ -1,0 +1,14 @@
+# Dependencies
+node_modules
+/frontend/node_modules
+
+# Build
+/frontend/build
+/frontend/dist
+
+# Env
+.env
+.env.local
+
+# System
+.DS_Store
