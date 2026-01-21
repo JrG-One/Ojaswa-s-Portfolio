@@ -204,6 +204,14 @@ export const achievements = [
     date: "2024",
     category: "Competitive Programming",
     icon: "zap"
+  },
+  {
+    id: 7,
+    title: "Outstanding Service Award",
+    description: "Received for outstanding service at COMSNETS 2026",
+    date: "2026",
+    category: "Award",
+    icon: "award"
   }
 ];
 
