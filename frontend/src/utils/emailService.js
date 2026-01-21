@@ -2,10 +2,10 @@ import emailjs from '@emailjs/browser';
 
 // Service configuration
 const EMAILJS_CONFIG = {
-    SERVICE_ID: 'service_6o6e9kc',
-    TEMPLATE_ID_NOTIFICATION: 'template_n1liike', // For YOU
-    TEMPLATE_ID_AUTOREPLY: 'template_b6nlvdp',    // For SENDER
-    PUBLIC_KEY: 'vLsGdN-v-S5GV3XEj',
+    SERVICE_ID: process.env.REACT_APP_EMAILJS_SERVICE_ID,
+    TEMPLATE_ID_NOTIFICATION: process.env.REACT_APP_EMAILJS_TEMPLATE_ID_NOTIFICATION, // For YOU
+    TEMPLATE_ID_AUTOREPLY: process.env.REACT_APP_EMAILJS_TEMPLATE_ID_AUTOREPLY,    // For SENDER
+    PUBLIC_KEY: process.env.REACT_APP_EMAILJS_PUBLIC_KEY,
 };
 
 export const sendEmail = async (templateParams) => {

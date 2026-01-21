@@ -9,7 +9,7 @@ export const personalInfo = {
   phone: "+91 8865989833",
   location: "IIIT Surat, India",
   avatar: "https://avatars.githubusercontent.com/u/placeholder",
-  resumeUrl: "https://drive.google.com/drive/folders/16_YDSW6FDsvJT46xF7pdcI0ckkCjNwao?usp=sharing",
+  resumeUrl: "https://drive.google.com/file/d/1aMBNDBMLoSCHf87EzlryeFflkMzVX9mu/view?usp=sharing",
   social: {
     github: "https://github.com/JrG-One",
     linkedin: "https://www.linkedin.com/in/ojaswavarshney/",
