@@ -127,9 +127,9 @@ const HeroSection = () => {
             {/* Metrics */}
             <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-0 w-full pt-6 border-t border-border">
               {[
-                { icon: <Code size={20} />, metric: "1.3%", title: "Top Globally", desc: "LeetCode" },
-                { icon: <BookOpen size={20} />, metric: "3", title: "Publications", desc: "IEEE, ACL" },
-                { icon: <span className="font-bold text-lg">&lt;/&gt;</span>, metric: "9+", title: "Projects", desc: "Enterprise" }
+                { icon: <Code size={20} />, metric: "1.3%", title: "LeetCode Ranker Globally" },
+                { icon: <BookOpen size={20} />, metric: "3+", title: "Research Publications" },
+                { icon: <span className="font-bold text-lg">&lt;/&gt;</span>, metric: "9+", title: "Enterprise Products & Projects" }
               ].map((item, idx) => (
                 <div 
                   key={idx}
