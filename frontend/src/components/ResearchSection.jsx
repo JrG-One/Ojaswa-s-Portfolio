@@ -1,125 +1,164 @@
 import React from "react";
-import { FileText, ExternalLink, Calendar, User } from "lucide-react";
+import { FileText, ExternalLink, Calendar, User, BookOpen } from "lucide-react";
 import { publications, conferencRoles } from "../mock";
+import { motion } from "framer-motion";
 
 const ResearchSection = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -15 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } },
+  };
+
+  const roleVariants = {
+    hidden: { opacity: 0, x: 15 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } },
+  };
+
   return (
-    <section
-      id="research"
-      className="relative py-20 bg-gradient-to-b from-[#0a0a0f] to-[#0f0f15] overflow-hidden"
-    >
-      <div className="container mx-auto px-6">
+    <section id="research" className="relative py-24 border-b border-border">
+      <div className="container mx-auto px-6 relative z-10">
+        
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-[#e0e0e0] mb-4">
-            <span className="text-[#00d9ff]">&lt;</span>Research & Publications
-            <span className="text-[#00d9ff]">/&gt;</span>
-          </h2>
-          <div className="w-24 h-1 bg-[#00d9ff] mx-auto mb-6"></div>
-          <p className="text-[#808080] text-lg max-w-2xl mx-auto">
-            Academic contributions and conference leadership roles
-          </p>
+        <div className="mb-16 flex flex-col md:flex-row md:items-baseline gap-4 md:gap-8 justify-between">
+          <div className="flex items-baseline gap-4 flex-grow">
+            <h2 className="text-3xl md:text-5xl font-black text-foreground tracking-tight uppercase whitespace-nowrap">
+              Research.<span className="text-accent">Output</span>
+            </h2>
+            <div className="h-px bg-border flex-grow mt-6 hidden md:block"></div>
+          </div>
+          
+          <motion.a
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            href="https://scholar.google.com/citations?user=VOWIVtAAAAAJ&hl=en"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-card border border-border text-foreground font-mono font-bold text-sm uppercase tracking-wider hover:border-accent hover:text-accent transition-all duration-300"
+          >
+            <BookOpen size={16} />
+            Google Scholar
+            <ExternalLink size={14} className="ml-1" />
+          </motion.a>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
+        <div className="grid md:grid-cols-2 gap-12">
           {/* Publications */}
-          <div>
-            <div className="flex items-center mb-6">
-              <FileText className="text-[#00d9ff] mr-3" size={24} />
-              <h3 className="text-2xl font-bold text-[#00d9ff]">
-                Publications
-              </h3>
-            </div>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+          >
+            <h3 className="text-xl font-bold font-mono text-foreground mb-8 uppercase tracking-widest flex items-center">
+              <span className="w-4 h-4 bg-accent mr-3"></span> Publications
+            </h3>
 
             <div className="space-y-6">
-              {publications.map((pub, index) => (
-                <div
+              {publications.map((pub) => (
+                <motion.div
+                  variants={itemVariants}
                   key={pub.id}
-                  className={`p-6 bg-[#0f0f15]/50 border border-[#00d9ff]/30 rounded-lg backdrop-blur-sm hover:border-[#00d9ff] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,217,255,0.2)] slide-in-left stagger-${index + 1}`}
+                  className="group p-6 bg-card border border-border hover:border-accent transition-colors duration-300 relative"
                 >
+                  {/* Accent Line */}
+                  <div className="absolute left-0 top-0 w-1 h-full bg-accent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  
                   {/* Status Badge */}
-                  <div className="flex justify-between items-start mb-3">
+                  <div className="flex justify-between items-start mb-4">
                     <span
-                      className={`text-xs font-bold px-3 py-1 rounded-full ${
+                      className={`text-xs font-mono font-bold tracking-wider uppercase px-2 py-1 border ${
                         pub.status.includes("Published")
-                          ? "bg-[#00ff88]/20 text-[#00ff88] border border-[#00ff88]/30"
-                          : "bg-[#00d9ff]/20 text-[#00d9ff] border border-[#00d9ff]/30"
+                          ? "bg-accent/10 text-accent border-accent/30"
+                          : "bg-muted text-muted-foreground border-border"
                       }`}
                     >
                       {pub.status}
                     </span>
-                    <span className="text-xs text-[#808080]">{pub.date}</span>
+                    <span className="text-xs font-mono text-muted-foreground">{pub.date}</span>
                   </div>
 
                   {/* Title */}
-                  <h4 className="text-lg font-bold text-[#e0e0e0] mb-2 hover:text-[#00d9ff] transition-colors duration-300">
+                  <h4 className="text-lg font-black text-foreground mb-3 uppercase tracking-tight">
                     {pub.title}
                   </h4>
 
                   {/* Authors */}
-                  <p className="text-sm text-[#808080] mb-2 flex items-start">
-                    <User size={14} className="mr-2 mt-0.5 flex-shrink-0" />
-                    <span>{pub.authors}</span>
+                  <p className="text-sm text-muted-foreground mb-6 font-mono leading-relaxed">
+                    <span className="text-accent">AUTHORS:</span> {pub.authors}
                   </p>
 
                   {/* Conference */}
-                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-[#00d9ff]/20">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-4 border-t border-border gap-2">
                     <div className="flex items-center text-sm">
-                      <Calendar size={14} className="mr-2 text-[#00d9ff]" />
-                      <span className="text-[#00d9ff] font-medium">
+                      <span className="text-foreground font-mono font-bold">
                         {pub.conference}
                       </span>
                     </div>
-                    <span className="text-xs text-[#808080]">
+                    <span className="text-xs text-muted-foreground font-mono bg-muted px-2 py-1 border border-border self-start sm:self-auto">
                       {pub.publisher}
                     </span>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Conference Roles */}
-          <div>
-            <div className="flex items-center mb-6">
-              <User className="text-[#00ff88] mr-3" size={24} />
-              <h3 className="text-2xl font-bold text-[#00ff88]">
-                Conference Leadership
-              </h3>
-            </div>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+          >
+            <h3 className="text-xl font-bold font-mono text-foreground mb-8 uppercase tracking-widest flex items-center">
+              <span className="w-4 h-4 bg-accent mr-3"></span> Leadership
+            </h3>
 
             <div className="space-y-4">
               {conferencRoles.map((role, index) => (
-                <div
+                <motion.div
+                  variants={roleVariants}
                   key={index}
-                  className={`p-6 bg-[#0f0f15]/50 border border-[#00ff88]/30 rounded-lg backdrop-blur-sm hover:border-[#00ff88] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,255,136,0.2)] slide-in-right stagger-${index + 1}`}
+                  className="group p-5 bg-card border border-border hover:border-accent transition-colors duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="text-lg font-bold text-[#e0e0e0]">
+                  <div>
+                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">
                       {role.role}
                     </h4>
-                    <span className="text-xs text-[#808080]">{role.year}</span>
+                    <p className="text-sm text-muted-foreground font-mono mt-1">
+                      {role.conference}
+                    </p>
                   </div>
-                  <p className="text-sm text-[#00ff88] font-medium">
-                    {role.conference}
-                  </p>
-                </div>
+                  <span className="text-xs font-mono font-bold text-accent bg-accent/10 px-2 py-1 border border-accent/20 self-start sm:self-auto shrink-0">
+                    {role.year}
+                  </span>
+                </motion.div>
               ))}
             </div>
 
             {/* Additional Info */}
-            <div className="mt-6 p-6 bg-[#00ff88]/10 border border-[#00ff88]/30 rounded-lg">
-              <p className="text-[#e0e0e0] text-sm leading-relaxed">
-                <span className="text-[#00ff88] font-bold">
-                  Leadership Impact:
-                </span>{" "}
-                Serving in multiple chair positions across prestigious
-                conferences like COMSNETS and AIMLSystems, contributing to the
-                academic community through app development, web management, and
-                undergraduate forum coordination.
-              </p>
-            </div>
-          </div>
+            <motion.div 
+              variants={roleVariants}
+              className="mt-8 p-6 bg-muted border border-border text-sm font-mono text-muted-foreground leading-relaxed"
+            >
+              <span className="text-accent font-bold block mb-2 text-base tracking-tight uppercase">
+                &gt; Impact_Summary
+              </span>
+              Serving in multiple chair positions across prestigious
+              conferences like COMSNETS and AIMLSystems, contributing to the
+              academic community through app development, web management, and
+              undergraduate forum coordination.
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>

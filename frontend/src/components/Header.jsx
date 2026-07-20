@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, Github, Linkedin, Mail, FileText } from "lucide-react";
+import { Menu, X, Github, Linkedin, Mail, FileText, Download } from "lucide-react";
 import { personalInfo } from "../mock";
 
 const Header = () => {
@@ -36,8 +36,8 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-        ? "bg-[#0a0a0f]/95 backdrop-blur-md border-b border-[#00d9ff]/20"
-        : "bg-transparent"
+        ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-sm"
+        : "bg-transparent py-4"
         }`}
     >
       <nav className="container mx-auto px-6 py-4">
@@ -46,22 +46,29 @@ const Header = () => {
           <a
             href="#home"
             onClick={(e) => scrollToSection(e, "#home")}
-            className="text-2xl font-bold text-[#00d9ff] hover:text-[#00ff88] transition-colors duration-300 font-mono"
+            className="flex items-center gap-3 group"
           >
-            &lt;Ojaswa /&gt;
+            <div className="relative w-10 h-10 overflow-hidden border border-border bg-muted flex-shrink-0">
+              <img 
+                src={process.env.PUBLIC_URL + "/portfolio.png"} 
+                alt="Ojaswa Varshney" 
+                className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 transition-all duration-300"
+              />
+              <div className="absolute inset-0 bg-accent mix-blend-overlay opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+            </div>
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
                 onClick={(e) => scrollToSection(e, item.href)}
-                className="text-[#e0e0e0] hover:text-[#00d9ff] transition-colors duration-300 text-sm font-medium relative group"
+                className="text-muted-foreground hover:text-foreground transition-colors duration-300 text-sm font-medium relative group tracking-wide font-mono uppercase"
               >
                 {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#00d9ff] transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute -bottom-1.5 left-0 w-0 h-[2px] bg-accent transition-all duration-300 group-hover:w-full"></span>
               </a>
             ))}
           </div>
@@ -72,7 +79,7 @@ const Header = () => {
               href={personalInfo.social.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#808080] hover:text-[#00d9ff] transition-colors duration-300"
+              className="text-muted-foreground hover:text-foreground transition-colors duration-300"
               aria-label="GitHub"
             >
               <Github size={20} />
@@ -81,87 +88,80 @@ const Header = () => {
               href={personalInfo.social.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#808080] hover:text-[#00d9ff] transition-colors duration-300"
+              className="text-muted-foreground hover:text-foreground transition-colors duration-300"
               aria-label="LinkedIn"
             >
               <Linkedin size={20} />
             </a>
             <a
-              href={`mailto:${personalInfo.email}`}
-              className="text-[#808080] hover:text-[#00d9ff] transition-colors duration-300"
-              aria-label="Email"
-            >
-              <Mail size={20} />
-            </a>
-            <a
               href={personalInfo.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-4 px-4 py-2 bg-transparent border border-[#00d9ff] text-[#00d9ff] rounded-md hover:bg-[#00d9ff] hover:text-[#0a0a0f] transition-all duration-300 text-sm font-medium"
+              className="ml-4 px-4 py-2 bg-foreground text-background hover:bg-accent hover:text-foreground transition-all duration-300 text-sm font-bold uppercase tracking-wider flex items-center gap-2"
             >
-              Resume
+              <Download size={16} /> Resume
             </a>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-[#00d9ff] hover:text-[#00ff88] transition-colors duration-300"
+            className="md:hidden text-foreground hover:text-accent transition-colors duration-300 focus:outline-none"
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-[#0a0a0f] border-b border-[#00d9ff]/20 shadow-2xl p-6 animate-in slide-in-from-top-5">
-            <div className="flex flex-col space-y-4">
+          <div className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-border shadow-2xl p-6 animate-in slide-in-from-top-2 duration-300">
+            <div className="flex flex-col space-y-2">
               {navItems.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
                   onClick={(e) => scrollToSection(e, item.href)}
-                  className="text-[#e0e0e0] hover:text-[#00d9ff] transition-colors duration-300 text-lg font-medium p-2 block border-b border-[#ffffff]/5"
+                  className="text-muted-foreground hover:text-accent hover:bg-muted/50 transition-all duration-300 text-base font-mono uppercase font-bold px-4 py-3 block"
                 >
                   {item.name}
                 </a>
               ))}
-              <div className="flex items-center space-x-6 pt-4 mt-2">
+              <div className="flex items-center justify-around pt-6 pb-2 border-t border-border mt-4">
                 <a
                   href={personalInfo.social.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#808080] hover:text-[#00d9ff] transition-colors duration-300 transform hover:scale-110"
+                  className="p-3 bg-muted/30 text-foreground hover:text-accent hover:bg-muted transition-all duration-300"
                   aria-label="GitHub"
                 >
-                  <Github size={24} />
+                  <Github size={22} />
                 </a>
                 <a
                   href={personalInfo.social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#808080] hover:text-[#00d9ff] transition-colors duration-300 transform hover:scale-110"
+                  className="p-3 bg-muted/30 text-foreground hover:text-accent hover:bg-muted transition-all duration-300"
                   aria-label="LinkedIn"
                 >
-                  <Linkedin size={24} />
+                  <Linkedin size={22} />
                 </a>
                 <a
                   href={`mailto:${personalInfo.email}`}
-                  className="text-[#808080] hover:text-[#00d9ff] transition-colors duration-300 transform hover:scale-110"
+                  className="p-3 bg-muted/30 text-foreground hover:text-accent hover:bg-muted transition-all duration-300"
                   aria-label="Email"
                 >
-                  <Mail size={24} />
-                </a>
-                <a
-                  href={personalInfo.resumeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-2 bg-transparent border border-[#00d9ff] text-[#00d9ff] rounded-md hover:bg-[#00d9ff] hover:text-[#0a0a0f] transition-all duration-300 text-sm font-medium w-full text-center"
-                >
-                  Resume
+                  <Mail size={22} />
                 </a>
               </div>
+              <a
+                href={personalInfo.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 flex items-center justify-center gap-2 px-6 py-3 bg-foreground text-background hover:bg-accent hover:text-foreground transition-all duration-300 text-sm font-bold uppercase tracking-wider w-full"
+              >
+                <Download size={18} /> Resume
+              </a>
             </div>
           </div>
         )}

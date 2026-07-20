@@ -1,5 +1,5 @@
 import React from "react";
-import { Github, Linkedin, Mail, Heart, ArrowUp } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowUp } from "lucide-react";
 import { personalInfo } from "../mock";
 
 const Footer = () => {
@@ -10,24 +10,29 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative bg-[#0a0a0f] border-t border-[#00d9ff]/20 pt-12 pb-6 overflow-hidden">
+    <footer className="w-full border-t border-border bg-background pt-16 pb-8">
       <div className="container mx-auto px-6">
+        
         {/* Main Footer Content */}
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
+        <div className="grid md:grid-cols-12 gap-12 mb-16">
+          
           {/* Brand Section */}
-          <div>
-            <h3 className="text-2xl font-bold text-[#00d9ff] mb-4 font-mono">
-              &lt;Ojaswa /&gt;
+          <div className="md:col-span-5">
+            <h3 className="text-2xl font-black text-foreground mb-4 uppercase tracking-tighter">
+              OJASWA <span className="text-accent">VARSHNEY</span>
             </h3>
-            <p className="text-[#808080] mb-4">
-              Building intelligent solutions that automate the impossible.
+            <p className="text-muted-foreground font-mono text-sm leading-relaxed max-w-sm mb-6">
+              Building intelligent solutions that automate the impossible. 
+              Bridging the gap between AI research and production systems.
             </p>
-            <div className="flex space-x-4">
+            
+            {/* Social Links */}
+            <div className="flex gap-4">
               <a
                 href={personalInfo.social.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-[#0f0f15] border border-[#00d9ff]/30 rounded-lg text-[#808080] hover:text-[#00d9ff] hover:border-[#00d9ff] transition-all duration-300"
+                className="p-3 border border-border text-foreground hover:bg-foreground hover:text-background transition-colors"
                 aria-label="GitHub"
               >
                 <Github size={20} />
@@ -36,14 +41,14 @@ const Footer = () => {
                 href={personalInfo.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-[#0f0f15] border border-[#00d9ff]/30 rounded-lg text-[#808080] hover:text-[#00d9ff] hover:border-[#00d9ff] transition-all duration-300"
+                className="p-3 border border-border text-foreground hover:bg-foreground hover:text-background transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin size={20} />
               </a>
               <a
                 href={`mailto:${personalInfo.email}`}
-                className="p-2 bg-[#0f0f15] border border-[#00d9ff]/30 rounded-lg text-[#808080] hover:text-[#00d9ff] hover:border-[#00d9ff] transition-all duration-300"
+                className="p-3 border border-border text-foreground hover:bg-foreground hover:text-background transition-colors"
                 aria-label="Email"
               >
                 <Mail size={20} />
@@ -52,9 +57,11 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h4 className="text-[#e0e0e0] font-bold mb-4">Quick Links</h4>
-            <ul className="space-y-2">
+          <div className="md:col-span-3">
+            <h4 className="text-foreground font-black mb-6 tracking-widest uppercase border-b border-border pb-2 inline-block">
+              Navigation
+            </h4>
+            <ul className="space-y-2 font-mono text-sm">
               {[
                 { name: "About", href: "#about" },
                 { name: "Projects", href: "#projects" },
@@ -72,8 +79,9 @@ const Footer = () => {
                         .querySelector(link.href)
                         .scrollIntoView({ behavior: "smooth" });
                     }}
-                    className="text-[#808080] hover:text-[#00d9ff] transition-colors duration-300 text-sm"
+                    className="text-muted-foreground hover:text-accent transition-colors uppercase flex items-center group"
                   >
+                    <span className="text-accent mr-2 opacity-0 group-hover:opacity-100 transition-opacity">&gt;</span>
                     {link.name}
                   </a>
                 </li>
@@ -82,59 +90,56 @@ const Footer = () => {
           </div>
 
           {/* Stats */}
-          <div>
-            <h4 className="text-[#e0e0e0] font-bold mb-4">Quick Stats</h4>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between text-[#808080]">
-                <span>Projects Completed</span>
-                <span className="text-[#00d9ff] font-bold">5+</span>
+          <div className="md:col-span-4">
+            <h4 className="text-foreground font-black mb-6 tracking-widest uppercase border-b border-border pb-2 inline-block">
+              Telemetry
+            </h4>
+            <div className="space-y-3 font-mono text-sm">
+              <div className="flex justify-between items-center border-b border-border pb-2">
+                <span className="text-muted-foreground uppercase">Projects_Completed</span>
+                <span className="text-foreground font-bold">9+</span>
               </div>
-              <div className="flex justify-between text-[#808080]">
-                <span>Problems Solved</span>
-                <span className="text-[#00ff88] font-bold">600+</span>
+              <div className="flex justify-between items-center border-b border-border pb-2">
+                <span className="text-muted-foreground uppercase">Problems_Solved</span>
+                <span className="text-foreground font-bold">600+</span>
               </div>
-              <div className="flex justify-between text-[#808080]">
-                <span>Publications</span>
-                <span className="text-[#00d9ff] font-bold">3</span>
+              <div className="flex justify-between items-center border-b border-border pb-2">
+                <span className="text-muted-foreground uppercase">Publications</span>
+                <span className="text-foreground font-bold">3</span>
               </div>
-              <div className="flex justify-between text-[#808080]">
-                <span>LeetCode Rating</span>
-                <span className="text-[#00ff88] font-bold">2134</span>
+              <div className="flex justify-between items-center pb-2">
+                <span className="text-muted-foreground uppercase">LeetCode_Rating</span>
+                <span className="text-foreground font-bold">2134</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="border-t border-[#00d9ff]/20 my-6"></div>
+        <div className="h-px w-full bg-border mb-8"></div>
 
         {/* Bottom Footer */}
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <p className="text-[#808080] text-sm mb-4 md:mb-0 flex items-center">
-            © {currentYear} {personalInfo.name}. Built with{" "}
-            <Heart
-              className="mx-1 text-[#ff0055]"
-              size={14}
-              fill="#ff0055"
-            />
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-muted-foreground font-mono text-xs uppercase flex items-center">
+            &copy; {currentYear} {personalInfo.name} // All rights reserved.
           </p>
+
+          {/* Terminal Command */}
+          <div className="px-4 py-2 bg-muted border border-border inline-block">
+            <pre className="text-accent text-xs font-mono">
+              <span className="text-muted-foreground">visitor@system:~$</span> exit 0
+            </pre>
+          </div>
 
           {/* Scroll to Top Button */}
           <button
             onClick={scrollToTop}
-            className="p-2 bg-[#00d9ff] text-[#0a0a0f] rounded-lg hover:bg-[#00ff88] transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,217,255,0.5)] transform hover:scale-110"
+            className="p-3 border border-border bg-card text-foreground hover:bg-foreground hover:text-background transition-colors focus:outline-none flex items-center gap-2 font-mono text-xs font-bold uppercase"
             aria-label="Scroll to top"
           >
-            <ArrowUp size={20} />
+            <ArrowUp size={16} />
+            Top
           </button>
-        </div>
-
-        {/* Terminal Command */}
-        <div className="mt-6 text-center">
-          <pre className="text-[#00ff88] text-xs font-mono inline-block">
-            <span className="text-[#808080]">root@portfolio:~$</span> echo
-            "Thanks for visiting!"
-          </pre>
         </div>
       </div>
     </footer>

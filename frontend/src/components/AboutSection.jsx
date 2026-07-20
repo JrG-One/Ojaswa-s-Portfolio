@@ -1,131 +1,130 @@
 import React from "react";
-import { MapPin, Briefcase, GraduationCap, Mail, Phone } from "lucide-react";
+import { MapPin, Briefcase, GraduationCap, Mail, Phone, ExternalLink, ArrowRight } from "lucide-react";
 import { personalInfo, education, experience } from "../mock";
+import { motion } from "framer-motion";
 
 const AboutSection = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+  };
+
   return (
-    <section
-      id="about"
-      className="relative py-20 bg-gradient-to-b from-[#0a0a0f] to-[#0f0f15] overflow-hidden"
-    >
-      <div className="container mx-auto px-6">
+    <section id="about" className="relative py-24 border-b border-border">
+      <div className="container mx-auto px-6 relative z-10">
+        
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-[#e0e0e0] mb-4">
-            <span className="text-[#00d9ff]">&lt;</span>About Me
-            <span className="text-[#00d9ff]">/&gt;</span>
+        <div className="mb-16 flex items-baseline gap-4">
+          <h2 className="text-3xl md:text-5xl font-black text-foreground tracking-tight uppercase">
+            System.<span className="text-accent">Profile</span>
           </h2>
-          <div className="w-24 h-1 bg-[#00d9ff] mx-auto"></div>
+          <div className="h-px bg-border flex-grow mt-6"></div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          {/* Left Column - Bio */}
-          <div className="space-y-6">
-            <div className="p-8 bg-[#0f0f15]/50 border border-[#00d9ff]/30 rounded-lg backdrop-blur-sm hover:border-[#00d9ff] transition-all duration-300">
-              <h3 className="text-2xl font-bold text-[#00d9ff] mb-4">
-                Who Am I?
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          
+          {/* Bio & Details */}
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            className="lg:col-span-5 space-y-8"
+          >
+            <motion.div variants={itemVariants}>
+              <h3 className="text-xl font-bold font-mono text-foreground mb-4 uppercase tracking-widest flex items-center">
+                <span className="w-4 h-4 bg-accent mr-3"></span> About_Me
               </h3>
-              <p className="text-[#e0e0e0] leading-relaxed mb-4">
+              <p className="text-fluid-base text-muted-foreground leading-relaxed whitespace-pre-line">
                 {personalInfo.bio}
               </p>
+            </motion.div>
 
-              {/* Quick Info */}
-              <div className="space-y-3 mt-6 pt-6 border-t border-[#00d9ff]/20">
-                <div className="flex items-center text-[#808080]">
-                  <Mail className="mr-3 text-[#00d9ff]" size={18} />
-                  <a
-                    href={`mailto:${personalInfo.email}`}
-                    className="hover:text-[#00d9ff] transition-colors duration-300"
-                  >
+            {/* Terminal-like quick info */}
+            <motion.div variants={itemVariants} className="bg-card border border-border p-6 font-mono text-sm">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-4 border-b border-border pb-3">
+                  <span className="text-muted-foreground w-20">EMAIL</span>
+                  <a href={`mailto:${personalInfo.email}`} className="text-foreground hover:text-accent transition-colors truncate">
                     {personalInfo.email}
                   </a>
                 </div>
-                <div className="flex items-center text-[#808080]">
-                  <Phone className="mr-3 text-[#00d9ff]" size={18} />
-                  <span>{personalInfo.phone}</span>
+                <div className="flex items-center gap-4 border-b border-border pb-3">
+                  <span className="text-muted-foreground w-20">PHONE</span>
+                  <span className="text-foreground">{personalInfo.phone}</span>
                 </div>
-                <div className="flex items-center text-[#808080]">
-                  <MapPin className="mr-3 text-[#00d9ff]" size={18} />
-                  <span>{personalInfo.location}</span>
+                <div className="flex items-center gap-4 border-b border-border pb-3">
+                  <span className="text-muted-foreground w-20">LOC</span>
+                  <span className="text-foreground">{personalInfo.location}</span>
+                </div>
+                <div className="flex items-center gap-4 pt-1">
+                  <span className="text-muted-foreground w-20">EDU</span>
+                  <span className="text-foreground leading-tight">
+                    {education.degree} <br/>
+                    <span className="text-accent">{education.institution}</span> ({education.cgpa})
+                  </span>
                 </div>
               </div>
-            </div>
+            </motion.div>
+          </motion.div>
 
-            {/* Education */}
-            <div className="p-8 bg-[#0f0f15]/50 border border-[#00d9ff]/30 rounded-lg backdrop-blur-sm hover:border-[#00d9ff] transition-all duration-300">
-              <div className="flex items-center mb-4">
-                <GraduationCap className="text-[#00d9ff] mr-3" size={24} />
-                <h3 className="text-xl font-bold text-[#00d9ff]">
-                  Education
-                </h3>
-              </div>
-              <h4 className="text-lg font-semibold text-[#e0e0e0] mb-2">
-                {education.degree}
-              </h4>
-              <p className="text-[#808080] mb-2">{education.institution}</p>
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-[#808080]">{education.duration}</span>
-                <span className="text-[#00ff88] font-bold">
-                  CGPA: {education.cgpa}
-                </span>
-              </div>
-            </div>
-          </div>
+          {/* Experience Feed */}
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            className="lg:col-span-7"
+          >
+            <motion.h3 variants={itemVariants} className="text-xl font-bold font-mono text-foreground mb-8 uppercase tracking-widest flex items-center">
+              <span className="w-4 h-4 bg-accent mr-3"></span> Execution_Log
+            </motion.h3>
 
-          {/* Right Column - Experience */}
-          <div className="space-y-6">
-            <div className="flex items-center mb-6">
-              <Briefcase className="text-[#00d9ff] mr-3" size={24} />
-              <h3 className="text-2xl font-bold text-[#00d9ff]">
-                Experience
-              </h3>
-            </div>
-
-            {experience.map((exp, index) => (
-              <div
-                key={exp.id}
-                className={`p-4 md:p-6 bg-[#0f0f15]/50 border border-[#00d9ff]/30 rounded-lg backdrop-blur-sm hover:border-[#00d9ff] transition-all duration-300 slide-in-right stagger-${index + 1}`}
-              >
-                {/* Header */}
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h4 className="text-xl font-bold text-[#e0e0e0] mb-1">
-                      {exp.role}
-                    </h4>
-                    <p className="text-[#00d9ff] font-medium">
-                      {exp.company}
-                    </p>
-                    <p className="text-sm text-[#808080] mt-1">
-                      {exp.location} | {exp.type}
-                    </p>
+            <div className="space-y-6">
+              {experience.map((exp) => (
+                <motion.div
+                  variants={itemVariants}
+                  key={exp.id}
+                  className="group relative pl-6 md:pl-8 border-l border-border hover:border-accent transition-colors duration-300 pb-2"
+                >
+                  <div className="absolute left-[-5px] top-1.5 w-2.5 h-2.5 bg-background border-2 border-border group-hover:border-accent group-hover:bg-accent transition-all duration-300"></div>
+                  
+                  <div className="flex flex-col sm:flex-row justify-between items-start mb-2 gap-2">
+                    <div>
+                      <h4 className="text-xl font-black text-foreground uppercase tracking-tight">
+                        {exp.role}
+                      </h4>
+                      <p className="text-accent font-mono text-sm font-bold uppercase tracking-wider">
+                        {exp.company}
+                      </p>
+                    </div>
+                    <div className="shrink-0 text-right">
+                      <span className={`inline-block px-2 py-1 text-xs font-mono font-bold uppercase tracking-wider border ${exp.current ? 'bg-accent/10 text-accent border-accent/50' : 'bg-muted text-muted-foreground border-border'}`}>
+                        {exp.current ? 'Active' : exp.duration}
+                      </span>
+                    </div>
                   </div>
-                  {exp.current && (
-                    <span className="px-3 py-1 bg-[#00ff88]/20 text-[#00ff88] text-xs font-bold rounded-full border border-[#00ff88]">
-                      Current
-                    </span>
-                  )}
-                </div>
 
-                {/* Duration */}
-                <div className="mb-4 text-sm text-[#808080]">
-                  {exp.duration}
-                </div>
-
-                {/* Responsibilities */}
-                <ul className="space-y-2">
-                  {exp.responsibilities.map((resp, idx) => (
-                    <li
-                      key={idx}
-                      className="text-[#808080] text-sm flex items-start"
-                    >
-                      <span className="text-[#00d9ff] mr-2 mt-1">▹</span>
-                      <span>{resp}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+                  <ul className="mt-4 space-y-2">
+                    {exp.responsibilities.map((resp, idx) => (
+                      <li key={idx} className="text-muted-foreground text-sm flex items-start group/li">
+                        <ArrowRight size={14} className="mr-2 mt-1 shrink-0 text-border group-hover/li:text-accent transition-colors" />
+                        <span className="leading-relaxed">{resp}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

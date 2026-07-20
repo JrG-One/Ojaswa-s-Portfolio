@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   ExternalLink,
   Github,
@@ -8,6 +8,30 @@ import {
   FileText,
 } from "lucide-react";
 import { projects } from "../mock";
+import { motion, AnimatePresence } from "framer-motion";
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+  exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } },
+};
+
+const SpotlightCard = ({ children, className, isWide }) => {
+  return (
+    <motion.div
+      layout
+      variants={itemVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      className={`group flex flex-col bg-card border border-border overflow-hidden hover:border-accent transition-colors duration-300 z-10 ${className}`}
+    >
+      <div className={`flex w-full h-full ${isWide ? 'flex-col md:flex-row' : 'flex-col'}`}>
+        {children}
+      </div>
+    </motion.div>
+  );
+};
 
 const ProjectsSection = () => {
   const [filter, setFilter] = useState("all");
@@ -25,149 +49,183 @@ const ProjectsSection = () => {
   const getCategoryIcon = (category) => {
     switch (category) {
       case "AI/ML":
-        return <Sparkles size={16} />;
+        return <Sparkles size={14} />;
       case "Research":
-        return <Award size={16} />;
+        return <Award size={14} />;
       default:
-        return <Code2 size={16} />;
+        return <Code2 size={14} />;
     }
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
   return (
-    <section
-      id="projects"
-      className="relative py-20 bg-[#0f0f15] overflow-hidden"
-    >
-      <div className="container mx-auto px-6">
+    <section id="projects" className="relative py-24 border-b border-border">
+      <div className="container mx-auto px-6 relative z-10">
+        
         {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-[#e0e0e0] mb-4">
-            <span className="text-[#00d9ff]">&lt;</span>Featured Projects
-            <span className="text-[#00d9ff]">/&gt;</span>
+        <div className="mb-16 flex items-baseline gap-4">
+          <h2 className="text-3xl md:text-5xl font-black text-foreground tracking-tight uppercase">
+            Deploy.<span className="text-accent">Archive</span>
           </h2>
-          <div className="w-24 h-1 bg-[#00d9ff] mx-auto mb-8"></div>
-          <p className="text-[#808080] text-lg max-w-2xl mx-auto">
-            From AI-driven platforms to mobile apps, here are some of my
-            impactful projects
-          </p>
+          <div className="h-px bg-border flex-grow mt-6"></div>
         </div>
 
         {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        <div className="flex flex-wrap gap-2 mb-12">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setFilter(category)}
-              className={`px-6 py-2 rounded-full font-medium text-sm transition-all duration-300 ${filter === category
-                ? "bg-[#00d9ff] text-[#0a0a0f] shadow-[0_0_20px_rgba(0,217,255,0.5)]"
-                : "bg-[#0f0f15] text-[#808080] border border-[#00d9ff]/30 hover:border-[#00d9ff] hover:text-[#00d9ff]"
-                }`}
+              className={`px-4 py-1.5 font-mono text-sm uppercase tracking-wider transition-all duration-300 border ${
+                filter === category
+                  ? "bg-accent text-accent-foreground border-accent"
+                  : "bg-muted text-muted-foreground border-border hover:border-accent hover:text-foreground"
+              }`}
             >
-              {category.toUpperCase()}
+              {category}
             </button>
           ))}
         </div>
 
         {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
-            <div
-              key={project.id}
-              className={`group bg-[#0a0a0f] border border-[#00d9ff]/30 rounded-lg overflow-hidden hover:border-[#00d9ff] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,217,255,0.2)] hover:-translate-y-2 slide-in-up stagger-${(index % 3) + 1}`}
-            >
-              {/* Project Image */}
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] to-transparent opacity-60"></div>
-                {project.featured && (
-                  <div className="absolute top-4 right-4 px-3 py-1 bg-[#00ff88] text-[#0a0a0f] text-xs font-bold rounded-full flex items-center">
-                    <Sparkles size={12} className="mr-1" />
-                    Featured
+        <motion.div 
+          layout
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project, idx) => {
+              // Asymmetric editorial grid logic
+              const isWide = idx % 4 === 0 || idx % 4 === 3;
+              const gridSpan = isWide ? "md:col-span-2 xl:col-span-2" : "col-span-1";
+              
+              const imgWrapperClasses = isWide 
+                ? "relative w-full md:w-5/12 h-64 md:h-auto overflow-hidden bg-muted border-b md:border-b-0 md:border-r border-border flex-shrink-0"
+                : "relative w-full h-56 overflow-hidden bg-muted border-b border-border flex-shrink-0";
+
+              return (
+                <SpotlightCard key={project.id} className={gridSpan} isWide={isWide}>
+                  {/* Project Image Area */}
+                  <div className={imgWrapperClasses}>
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover object-center transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-[1.02]"
+                      onError={(e) => {
+                        e.target.onerror = null; 
+                        e.target.src = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop';
+                      }}
+                    />
+                    
+                    {project.featured && (
+                      <div className="absolute top-4 right-4 px-2 py-1 bg-background/80 text-foreground text-xs font-mono font-bold tracking-wider uppercase border border-accent flex items-center backdrop-blur-sm z-20">
+                        <Sparkles size={12} className="mr-1.5 text-accent" />
+                        Featured
+                      </div>
+                    )}
+                    
+                    <div className="absolute top-4 left-4 px-2 py-1 bg-background/80 text-foreground text-xs font-mono font-bold tracking-wider uppercase border border-border flex items-center backdrop-blur-sm z-20">
+                      <span className="text-accent mr-1.5">{getCategoryIcon(project.category)}</span>
+                      {project.category}
+                    </div>
                   </div>
-                )}
-                <div className="absolute top-4 left-4 px-3 py-1 bg-[#00d9ff]/90 backdrop-blur-sm text-[#0a0a0f] text-xs font-bold rounded-full flex items-center">
-                  {getCategoryIcon(project.category)}
-                  <span className="ml-1">{project.category}</span>
-                </div>
-              </div>
 
-              {/* Project Content */}
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-[#e0e0e0] mb-2 group-hover:text-[#00d9ff] transition-colors duration-300">
-                  {project.title}
-                </h3>
-                <p className="text-[#808080] text-sm mb-4 line-clamp-3">
-                  {project.description}
-                </p>
+                  {/* Project Content */}
+                  <div className={`p-6 md:p-8 flex flex-col flex-grow bg-card relative overflow-hidden`}>
+                    <div className="absolute -right-10 -bottom-10 text-[8rem] font-black text-muted/20 pointer-events-none select-none z-0">
+                      {(idx + 1).toString().padStart(2, '0')}
+                    </div>
+                    
+                    <div className="relative z-10 flex flex-col h-full">
+                      <h3 className={`font-black text-foreground mb-4 uppercase tracking-tight ${isWide ? 'text-3xl' : 'text-2xl'}`}>
+                        {project.title}
+                      </h3>
+                      <p className={`text-muted-foreground mb-6 flex-grow leading-relaxed ${isWide ? 'text-base md:text-lg line-clamp-4' : 'text-sm line-clamp-3'}`}>
+                        {isWide && project.longDescription ? project.longDescription : project.description}
+                      </p>
 
-                {/* Status Badge */}
-                {project.status && (
-                  <div className="mb-4 px-3 py-1 bg-[#00ff88]/10 border border-[#00ff88]/30 rounded text-xs text-[#00ff88] inline-block">
-                    {project.status}
+                      {/* Status Badge */}
+                      {project.status && (
+                        <div className="mb-6">
+                          <span className="px-2 py-1 bg-accent/10 border border-accent/50 text-xs font-mono tracking-wide text-accent inline-flex items-center">
+                            <div className="w-1.5 h-1.5 bg-accent mr-2" />
+                            {project.status}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Tech Stack */}
+                      <div className="flex flex-wrap gap-2 mb-8">
+                        {project.techStack.slice(0, isWide ? 6 : 4).map((tech, i) => (
+                          <span
+                            key={i}
+                            className="text-xs text-muted-foreground font-mono before:content-['#'] before:text-accent"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                        {project.techStack.length > (isWide ? 6 : 4) && (
+                          <span className="text-xs text-muted-foreground font-mono">
+                            +{project.techStack.length - (isWide ? 6 : 4)}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Links */}
+                      <div className="flex flex-wrap gap-4 mt-auto pt-6 border-t border-border">
+                        {project.githubUrl && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground hover:text-accent transition-colors"
+                          >
+                            <Github size={14} className="mr-1.5" />
+                            Src
+                          </a>
+                        )}
+                        {project.liveUrl && (
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground hover:text-accent transition-colors"
+                          >
+                            <ExternalLink size={14} className="mr-1.5" />
+                            Live
+                          </a>
+                        )}
+                        {project.posterUrl && (
+                          <a
+                            href={project.posterUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground hover:text-accent transition-colors"
+                          >
+                            <FileText size={14} className="mr-1.5" />
+                            Poster
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                )}
-
-                {/* Tech Stack */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.techStack.slice(0, 4).map((tech, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2 py-1 bg-[#0f0f15] text-[#00d9ff] text-xs rounded border border-[#00d9ff]/30 font-mono"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                  {project.techStack.length > 4 && (
-                    <span className="px-2 py-1 bg-[#0f0f15] text-[#808080] text-xs rounded border border-[#808080]/30">
-                      +{project.techStack.length - 4}
-                    </span>
-                  )}
-                </div>
-
-                {/* Links */}
-                <div className="flex gap-3">
-                  {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center text-[#808080] hover:text-[#00d9ff] transition-colors duration-300 text-sm"
-                    >
-                      <Github size={16} className="mr-1" />
-                      Code
-                    </a>
-                  )}
-                  {project.liveUrl && (
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center text-[#808080] hover:text-[#00d9ff] transition-colors duration-300 text-sm"
-                    >
-                      <ExternalLink size={16} className="mr-1" />
-                      Live Demo
-                    </a>
-                  )}
-                  {project.posterUrl && (
-                    <a
-                      href={project.posterUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center text-[#808080] hover:text-[#00ff88] transition-colors duration-300 text-sm"
-                    >
-                      <FileText size={16} className="mr-1" />
-                      Poster
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+                </SpotlightCard>
+              );
+            })}
+          </AnimatePresence>
+        </motion.div>
       </div>
     </section>
   );

@@ -4,38 +4,38 @@
 }
 
 .App {
-  background-color: #0a0a0f;
+  background-color: #020617; /* Tailwind slate-950 */
   min-height: 100vh;
   overflow-x: hidden;
 }
 
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0f;
+  background: #020617; /* slate-950 */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00d9ff;
-  border-radius: 5px;
+  background: #4f46e5; /* indigo-600 */
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00ff88;
+  background: #6366f1; /* indigo-500 */
 }
 
 /* Selection Styling */
 ::selection {
-  background: #00d9ff;
-  color: #0a0a0f;
+  background: rgba(99, 102, 241, 0.3); /* indigo-500 with opacity */
+  color: #f1f5f9; /* slate-100 */
 }
 
 ::-moz-selection {
-  background: #00d9ff;
-  color: #0a0a0f;
+  background: rgba(99, 102, 241, 0.3);
+  color: #f1f5f9;
 }
 
 /* Text Clipping */
